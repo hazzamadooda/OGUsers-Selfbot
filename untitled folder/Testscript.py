@@ -75,7 +75,8 @@ def startup_questions():
 
 
 def end_function():
-    print("Your message has successfully been sent ", str(total_messages), "times!")
+    print("Your message has successfully been sent", str(total_messages), "times!")
+    quit()
 
 def loginfunction():
     global driver
@@ -83,6 +84,7 @@ def loginfunction():
     driver.get('https://ogusers.com/login')
     connected = False
     while not connected:
+        time.sleep(5)
         try:
             email_input = driver.find_element(By.CSS_SELECTOR, 'input[placeholder="Username"]')
             email = username
@@ -110,9 +112,8 @@ def replyfunction():
     while i != total_messages:
         word_string = []
         driver.get(reply_link)
-        if i == total_messages:
+        if int(i) == int(total_messages):
             end_function()
-            break
         try:
             iframe = driver.find_elements(By.TAG_NAME, 'iframe')[0]
             driver.switch_to.frame(iframe)
@@ -129,13 +130,30 @@ def replyfunction():
             driver.find_element(By.CSS_SELECTOR,'[value="Post Reply"]').click()
             i += 1
             if full_message == True:
-                print("Message has been successfully sent as:\"", message + " \"! The program has been running for", i, "itterations! Only", str(total_messages - i), "left!")
+                os.system("clear")
+                print("""
+██╗  ██╗░░██╗░█████╗░███████╗███████╗░█████╗░  ██╗
+██║  ██║░░██║██╔══██╗╚════██║╚════██║██╔══██╗  ██║
+██║  ███████║███████║░░███╔═╝░░███╔═╝███████║  ██║
+╚═╝  ██╔══██║██╔══██║██╔══╝░░██╔══╝░░██╔══██║  ╚═╝
+██╗  ██║░░██║██║░░██║███████╗███████╗██║░░██║  ██╗
+╚═╝  ╚═""")
+                print("Message has been successfully sent as:\"", message + " \"! The program has been running for", str(i) , "itterations! Only", str(int(total_messages) - int(i)), "left!")
             else:
-                print("There are", str(total_messages - i), "itterations left.")
+                os.system("clear")
+                print("""
+██╗  ██╗░░██╗░█████╗░███████╗███████╗░█████╗░  ██╗
+██║  ██║░░██║██╔══██╗╚════██║╚════██║██╔══██╗  ██║
+██║  ███████║███████║░░███╔═╝░░███╔═╝███████║  ██║
+╚═╝  ██╔══██║██╔══██║██╔══╝░░██╔══╝░░██╔══██║  ╚═╝
+██╗  ██║░░██║██║░░██║███████╗███████╗██║░░██║  ██╗
+╚═╝  ╚═""")
+                print("There are", str(int(total_messages) - int(i)), "itterations left.")
             time.sleep(7)
         except:
             time.sleep(1)
             driver.get(reply_link)
+
 
 startup_questions()
 
